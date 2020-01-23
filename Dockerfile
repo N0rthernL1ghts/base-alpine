@@ -1,8 +1,12 @@
 FROM alpine:3.10.3 AS s6-alpine
 LABEL maintainer="Aleksandar Puharic xzero@elite7haers.net"
 
+# S6 Overlay
 ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz
 ENV S6_OVERLAY_RELEASE=${S6_OVERLAY_RELEASE}
+
+# Custom defintions
+ENV CRON_ENABLED false
 
 ADD rootfs /
 
