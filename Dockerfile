@@ -6,7 +6,7 @@ ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/la
 ENV S6_OVERLAY_RELEASE=${S6_OVERLAY_RELEASE}
 
 # Custom defintions
-ENV CRON_ENABLED false
+ENV CRON_ENABLED=false
 
 ADD rootfs /
 
