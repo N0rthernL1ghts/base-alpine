@@ -1,4 +1,4 @@
-FROM amd64/alpine:edge@sha256:9898e9a51db3e20a557fe0b2a60494b97200d31f580796e664f126a24ec487cd AS s6-alpine
+FROM amd64/alpine:3.12 AS s6-alpine
 LABEL maintainer="Aleksandar Puharic xzero@elite7haers.net"
 
 # S6 Overlay
