@@ -1,24 +1,25 @@
-FROM amd64/alpine:3.12 AS s6-alpine
-LABEL maintainer="Aleksandar Puharic xzero@elite7haers.net"
+ARG ALPINE_VERSION=3.12
+
+FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS s6-alpine
+LABEL maintainer="Aleksandar Puharic aleksandar@puharic.com"
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
 # S6 Overlay
-ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz
-ENV S6_OVERLAY_RELEASE=${S6_OVERLAY_RELEASE}
+ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-${TARGETPLATFORM}.tar.gz
+
+RUN wget -O /tmp/s6overlay.tar.gz $(echo ${S6_OVERLAY_RELEASE} | sed 's/linux\///g' | sed 's/arm64/aarch64/g' | sed 's/arm\/v7/armhf/g') \
+    && tar xzf /tmp/s6overlay.tar.gz -C / \
+    && rm /tmp/s6overlay.tar.gz
+
+# S6 Config
 ENV S6_KEEP_ENV=1
 
 # Custom defintions
 ENV CRON_ENABLED=false
 
 ADD rootfs /
-
-# s6 overlay Download
-ADD ${S6_OVERLAY_RELEASE} /tmp/s6overlay.tar.gz
-
-# Build and some of image configuration
-RUN apk upgrade --update --no-cache \
-    && rm -rf /var/cache/apk/* \
-    && tar xzf /tmp/s6overlay.tar.gz -C / \
-    && rm /tmp/s6overlay.tar.gz
 
 # Init
 ENTRYPOINT [ "/init" ]
