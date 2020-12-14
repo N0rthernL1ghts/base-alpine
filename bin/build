@@ -1,5 +1,8 @@
 
 #!/usr/bin/env sh
 
+ALPINE_VERSION=${1:-latest}
+
 docker buildx create --use --name build --node build --driver-opt network=host
-docker buildx build  --cache-from "type=local,src=/tmp/.buildx-cache" --push --platform linux/amd64,linux/armhf,linux/aarch64 --tag "nlss/base-alpine:${1:-latest}" .
+docker buildx build  --cache-from "type=local,src=/tmp/.buildx-cache" --build-arg ALPINE_VERSION=${ALPINE_VERSION} --push --platform linux/amd64,linux/armhf,linux/aarch64 --tag "nlss/base-alpine:${ALPINE_VERSION}" --tag "nlss/base-alpine:latest" .
+docker buildx build  --cache-from "type=local,src=/tmp/.buildx-cache" --build-arg ALPINE_VERSION=edge --push --platform linux/amd64,linux/armhf,linux/aarch64 --tag nlss/base-alpine:edge
