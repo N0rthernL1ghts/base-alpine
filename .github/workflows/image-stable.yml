@@ -16,4 +16,4 @@ jobs:
         with:
           version: latest
       - name: Build image
-      run: bin/build 3.12
+        run: bin/build 3.12
