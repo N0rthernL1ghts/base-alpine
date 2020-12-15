@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.12
 
 FROM --platform=${BUILDPLATFORM} alpine:${ALPINE_VERSION} AS s6-alpine
-LABEL maintainer="Aleksandar Puharic aleksandar@puharic.com"
+LABEL maintainer="Aleksandar Puharic <aleksandar@puharic.com>"
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
